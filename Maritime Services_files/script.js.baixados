@@ -1,0 +1,192 @@
+$(document).ready(function () {
+    // Stiky Header JS 
+    var topHeader = $(".top-header");
+    var mainHeader = $(".header");
+    var headerHeight = mainHeader.outerHeight();
+    $(window).scroll(function () {
+        var scroll = $(window).scrollTop();
+        if (scroll >= headerHeight) {
+            topHeader.hide();
+            mainHeader.addClass("sticky");
+        } else {
+            topHeader.show();
+            mainHeader.removeClass("sticky");
+        }
+    });
+
+    // Hero Slider
+    const swiper = new Swiper('.hero-slider', {
+        slidesPerView: 1,
+        spaceBetween: 0,
+        loop: true,
+        effect: 'fade',
+        autoplay: true,
+        autoplay: {
+            delay: 6000,
+        },
+    });
+
+    // Brands Slider
+    const brands = new Swiper('.brands-slider', {
+        slidesPerView: 4,
+        spaceBetween: 0,
+        loop: true,
+        speed: 1000,
+        autoplay: true,
+        autoplay: {
+            delay: 5000,
+        },
+        breakpoints: {
+            991: {
+                slidesPerView: 3,
+            },
+            768: {
+                slidesPerView: 2,
+            }
+        }
+    });
+
+    // Testimonial Slider
+    const testimonial = new Swiper('.testimonial-slider', {
+        slidesPerView: 1,
+        spaceBetween: 0,
+        loop: true,
+        speed: 1000,
+        autoplay: {
+            delay: 5000,
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        }
+    });
+
+    // Go to top
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 300) {
+            $('#goToTopBtn').fadeIn();
+        } else {
+            $('#goToTopBtn').fadeOut();
+        }
+    });
+    $('#goToTopBtn').click(function () {
+        $('html, body').animate({ scrollTop: 0 }, 'slow');
+    });
+
+    // Hero Slider
+    const service_slider = new Swiper('.service-slider', {
+        slidesPerView: 1,
+        spaceBetween: 0,
+        loop: true,
+        autoplay: true,
+        autoplay: {
+            delay: 6000,
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        }
+    });
+
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin(ScrollToPlugin);
+    gsap.set(".hero-slider .content h2, .hero-slider .content p, .hero-slider .content a", { opacity: 0, y: 30 });
+    gsap.to(".hero-slider .content h2, .hero-slider .content p, .hero-slider .content a", {
+        scrollTrigger: { trigger: ".hero-slider", start: "top 80%", end: "bottom 100%" },
+        y: 0, stagger: 0.3, delay: 0.1, opacity: 1, ease: "power2.in"
+    });
+    gsap.set(".about-section .content-area", { opacity: 0, y: 30 });
+    gsap.to(".about-section .content-area", {
+        scrollTrigger: { trigger: ".about-section", start: "top 90%", end: "bottom 100%" },
+        y: 0, stagger: 0.3, delay: 0.1, opacity: 1, ease: "power2.in"
+    });
+    gsap.set(".about-section-wrapper .about-main-image", { opacity: 0, width: 0 });
+    gsap.to(".about-section-wrapper .about-main-image", {
+        scrollTrigger: { trigger: ".about-section", start: "top 80%", end: "bottom 100%" },
+        width: "500", delay: 0.1, opacity: 1, ease: "power2.in"
+    });
+    const sections = document.querySelectorAll("section");
+    gsap.set(".section-heading h2, .section-heading p", { opacity: 0 });
+    sections.forEach((section) => {
+        const sectionHeadings = section.querySelectorAll(".section-heading h2, .section-heading p");
+        gsap.to(sectionHeadings, {
+            scrollTrigger: { trigger: section, start: "top 120%", end: "bottom 100%" },
+            y: -16, stagger: 0.3, opacity: 1, ease: "power2.in"
+        });
+    });
+    gsap.set(".services-wrapper .inner", { opacity: 0, y: 50 });
+    gsap.to(".services-wrapper .inner", {
+        scrollTrigger: { trigger: ".services-wrapper", start: "top 80%", end: "bottom 100%" },
+        y: 0, stagger: 0.3, delay: 0.1, opacity: 1, ease: "power2.in"
+    });
+    gsap.set(".team .inner", { opacity: 0, scale: 0 });
+    gsap.to(".team .inner", {
+        scrollTrigger: { trigger: ".team", start: "top 80%", end: "bottom 100%" },
+        scale: 1, opacity: 1, stagger: 0.3, delay: 0.1, ease: "power2.in"
+    });
+    gsap.set("nav.breadcrum-area h1, nav.breadcrum-area ol", { opacity: 0, y: 20 });
+    gsap.to("nav.breadcrum-area h1, nav.breadcrum-area ol", {
+        scrollTrigger: { trigger: "section.breadcrum-area", start: "top 80%", end: "bottom 100%" },
+        y: 0, stagger: 0.6, duration: 0.4, opacity: 1, ease: "power2.in"
+    });
+    gsap.set(".about-page-about-section .image-area .wrapper img", { opacity: 0, x: -20 });
+    gsap.to(".about-page-about-section .image-area .wrapper img", {
+        scrollTrigger: { trigger: ".about-page-about-section", start: "top 80%", end: "bottom 100%" },
+        x: 0, stagger: 0.3, duration: 0.4, opacity: 1, ease: "power2.in"
+    });
+    gsap.set(".about-page-about-section .image-area .third-image img", { opacity: 0, scale: 0 });
+    gsap.to(".about-page-about-section .image-area .third-image img", {
+        scrollTrigger: { trigger: ".about-page-about-section ", start: "top 80%", end: "bottom 100%" },
+        scale: 1, opacity: 1, duration: 0.4, stagger: 0.3, delay: 0.1, ease: "power2.in"
+    });
+    gsap.set(".main .card", { opacity: 0 });
+    gsap.to(".main .card", {
+        scrollTrigger: { trigger: ".main", start: "top 80%", end: "bottom 100%" },
+        opacity: 1, duration: 0.4, stagger: 0.3, delay: 0.1, ease: "power2.in"
+    });
+    gsap.set(".brand-area-wrapper .item", { opacity: 0 });
+    gsap.to(".brand-area-wrapper .item", {
+        scrollTrigger: { trigger: ".brand-area-wrapper", start: "top 80%", end: "bottom 100%" },
+        opacity: 1, duration: 0.4, stagger: 0.3, delay: 0.1, ease: "power2.in"
+    });
+    gsap.set(".certification1 .image-area img", { opacity: 0, scale: 0 });
+    gsap.to(".certification1 .image-area img", {
+        scrollTrigger: { trigger: ".certification1", start: "top 80%", end: "bottom 100%" },
+        opacity: 1, scale: 1, duration: 0.4, delay: 0.1, ease: "power2.in"
+    });
+    gsap.set(".contact-form-wrapper", { opacity: 0, rotateY: 90 });
+    gsap.to(".contact-form-wrapper", {
+        scrollTrigger: { trigger: ".contact-section", start: "top 80%", end: "bottom 100%" },
+        opacity: 1, rotateY: 0, duration: 0.4, delay: 0.1, ease: "power2.in"
+    });
+    gsap.set(".map iframe", { opacity: 0, height: 0 });
+    gsap.to(".map iframe", {
+        scrollTrigger: { trigger: ".map", start: "top 100%", end: "bottom 100%" },
+        opacity: 1, height: "400", delay: 0.1, ease: "power2.in"
+    });
+    gsap.set(".four-zero-four .inner", { opacity: 0, rotateY: 90 });
+    gsap.to(".four-zero-four .inner", {
+        scrollTrigger: { trigger: ".four-zero-four", start: "top 80%", end: "bottom 100%" },
+        opacity: 1, rotateY: 0, duration: 0.4, delay: 0.1, ease: "power2.in"
+    });
+    gsap.set(".services-details aside .all-services", { opacity: 0, y: 90 });
+    gsap.to(".services-details aside .all-services", {
+        scrollTrigger: { trigger: ".services-details", start: "top 80%", end: "bottom 100%" },
+        opacity: 1, y: 0, stagger: 0.3, duration: 0.4, delay: 0.1, ease: "power2.in"
+    });
+    gsap.set(".services-details aside .service-contact-banner", { opacity: 0, y: 90 });
+    gsap.to(".services-details aside .service-contact-banner", {
+        scrollTrigger: { trigger: ".services-details aside .service-contact-banner", start: "top 80%", end: "bottom 100%" },
+        opacity: 1, y: 0, stagger: 0.3, duration: 0.4, delay: 0.1, ease: "power2.in"
+    });
+    gsap.set(".services-details aside .enquiry-about-service", { opacity: 0, y: 90 });
+    gsap.to(".services-details aside .enquiry-about-service", {
+        scrollTrigger: { trigger: ".services-details aside .enquiry-about-service", start: "top 80%", end: "bottom 100%" },
+        opacity: 1, y: 0, stagger: 0.3, duration: 0.4, delay: 0.1, ease: "power2.in"
+    });
+    gsap.set(".courses-details aside ", { opacity: 0, y: 90 });
+    gsap.to(".courses-details aside ", {
+        scrollTrigger: { trigger: ".courses-details ", start: "top 80%", end: "bottom 100%" },
+        opacity: 1, y: 0, stagger: 0.3, duration: 0.4, delay: 0.1, ease: "power2.in"
+    });
+});
