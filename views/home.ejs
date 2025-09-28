@@ -1,0 +1,116 @@
+<%- include('partials/header.ejs') %>
+
+<div class="max-w-2xl mx-auto px-4 py-10">
+  <div class="bg-white bg-opacity-80 backdrop-blur-sm rounded-xl shadow-lg p-8">
+    <h1 class="text-2xl font-bold text-gray-800 text-center mb-6">Maritime Services Search</h1>
+    <div class="relative">
+      <input 
+        type="text" 
+        id="searchInput"
+        class="w-full p-4 pl-12 bg-white bg-opacity-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        placeholder="Search by name..."
+      >
+      <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+    </div>
+
+    <!-- <button></button> -->
+     <button id="homeButton" type="button" class="bg-gray-500 
+        hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-semibold w-full mt-4">
+    <a href="/form">Voltar para a Home</a>
+  </button>
+
+    <div id="spinner" class="hidden flex justify-center mt-4">
+      <div class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  </div>
+</div>
+
+<section class="valid-details-section section-padding">
+  <div class="center-wrapper">
+    <% if (result.length === 0) { %>
+      <h1 class="text-4xl text-center text-gray-700 mt-10">No Result Found!</h1>
+    <% } else { %>
+      <div id="certificatesList">
+        <% result.forEach(function(item) { %>
+          <% 
+            const formatDate = (dateString) => {
+              const date = new Date(dateString);
+              const day = date.getDate();
+              const month = date.toLocaleString('en-US', { month: 'short' });
+              const year = date.getFullYear();
+              return `${day} ${month} ${year}`;
+            };
+            
+            const birthDate = new Date(item.date_of_birth);
+            const formattedBirthDate = `${String(birthDate.getDate()).padStart(2, '0')}.${String(birthDate.getMonth() + 1).padStart(2, '0')}.${birthDate.getFullYear()}`;
+
+            const formattedCourseStartDate = formatDate(item.course_start_date);
+            const formattedCourseEndDate = formatDate(item.course_end_date);
+            const formattedIssuingDate = formatDate(item.issuing_date);
+            const formattedExpiryDate = formatDate(item.expiry_date);
+          %>
+          <div class="center-area mt-10 certificate-item">
+            <div class="top-head">
+              <a href="/certificates/<%= item.holder_name.toLowerCase().replace(/ /g, '-') %>">
+                <!-- <% if (item.img_url) { %> -->
+                  <img src="<%= item.img_url %>" loading="lazy" alt="Certificate Image" width="100" height="100">
+                <!-- <% } else { %>
+                  <img src="/eu.jpg" loading="lazy" alt="Logo" width="100" height="100">
+                <% } %> -->
+              </a>
+              <h5>“Approved by Liberia Maritime Authority”</h5>
+            </div>
+            <div class="validation-body">
+              <h3 class="status">Certification Verification: <span>Verified</span></h3>
+              <ul>
+                <li class="name">Certificate Holder's Name: <span><%= item.holder_name.toUpperCase() %></span></li>
+                <li>Certificate No: <span><%= item.certificate_number.toUpperCase() %></span></li>
+                <li>Date of Birth: <span><%= formattedBirthDate %></span></li>
+                <li>Course Start Date: <span><%= formattedCourseStartDate %></span></li>
+                <li>Course End Date: <span><%= formattedCourseEndDate %></span></li>
+                <li>ID No: <span><%= item.id_number.toUpperCase() %></span></li>
+                <li>Certificate Issuing Date: <span><%= formattedIssuingDate %></span></li>
+                <li>Certificate Expiry Date: <span><%= formattedExpiryDate %></span></li>
+              </ul>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer.ejs') %>
+
+<script>
+  const searchInput = document.getElementById('searchInput');
+  const spinner = document.getElementById('spinner');
+  const certificatesList = document.getElementById('certificatesList');
+
+  if (certificatesList) {
+    const certificates = Array.from(certificatesList.querySelectorAll('.certificate-item'));
+
+    searchInput.addEventListener('input', () => {
+      spinner.classList.remove('hidden');
+      const searchValue = searchInput.value.toLowerCase().trim();
+
+      clearTimeout(this.searchTimeout);
+
+      this.searchTimeout = setTimeout(() => {
+        certificates.forEach(cert => {
+          const nameElement = cert.querySelector('.name span');
+          const name = nameElement ? nameElement.innerText.toLowerCase() : '';
+          
+          if (name.includes(searchValue) || searchValue === '') {
+            cert.style.display = 'block';
+          } else {
+            cert.style.display = 'none';
+          }
+        });
+        spinner.classList.add('hidden');
+      }, 400);
+    });
+  }
+</script>

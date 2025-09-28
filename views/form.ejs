@@ -1,0 +1,103 @@
+<%- include('partials/header.ejs') %>
+
+<div class="max-w-xl mx-auto px-6 py-12 bg-white shadow-lg rounded-xl mt-10">
+  <h2 class="text-2xl font-bold mb-6 text-gray-800">Add Certificate</h2>
+
+  <form id="certificateForm" class="space-y-4" enctype="multipart/form-data">
+    <div>
+      <label class="block font-semibold text-gray-700">Name</label>
+      <input type="text" name="holder_name" required class="w-full p-2 border rounded-lg" />
+    </div>
+
+    <div>
+      <label class="block font-semibold text-gray-700">Certificate No</label>
+      <input type="text" name="certificate_number" required class="w-full p-2 border rounded-lg" />
+    </div>
+
+    <div>
+      <label class="block font-semibold text-gray-700">Date of Birth</label>
+      <input type="date" name="date_of_birth" required class="w-full p-2 border rounded-lg" />
+    </div>
+
+    <div>
+      <label class="block font-semibold text-gray-700">Course Start Date</label>
+      <input type="date" name="course_start_date" required class="w-full p-2 border rounded-lg" />
+    </div>
+
+    <div>
+      <label class="block font-semibold text-gray-700">Course End Date</label>
+      <input type="date" name="course_end_date" required class="w-full p-2 border rounded-lg" />
+    </div>
+
+    <div>
+      <label class="block font-semibold text-gray-700">ID No</label>
+      <input type="text" name="id_number" required class="w-full p-2 border rounded-lg" />
+    </div>
+
+    <div>
+      <label class="block font-semibold text-gray-700">Issuing Date</label>
+      <input type="date" name="issuing_date" required class="w-full p-2 border rounded-lg" />
+    </div>
+
+    <div>
+      <label class="block font-semibold text-gray-700">Expiry Date</label>
+      <input type="date" name="expiry_date" required class="w-full p-2 border rounded-lg" />
+    </div>
+
+    <div>
+      <label class="block font-semibold text-gray-700">Upload Certificate Image</label>
+      <input type="file" name="image_file" class="w-full p-2 border rounded-lg" />
+    </div>
+
+    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold">
+      Save
+    </button>
+  </form>
+
+  <button id="homeButton" type="button" class="bg-gray-500 
+  hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-semibold w-full mt-4">
+    <a href="/">Voltar para a Home</a>
+  </button>
+</div>
+
+<%- include('partials/footer.ejs') %>
+
+<script>
+  const form = document.getElementById('certificateForm');
+  const homeButton = document.getElementById('homeButton');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault(); 
+
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch('/form', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Server response was not ok');
+      }
+
+      const result = await response.json();
+      
+      const a = document.createElement('a');
+      a.href = result.qrCodeUrl;
+      a.download = `${formData.get('holder_name').toLowerCase().replace(/ /g, '-')}-qrcode.png`;
+      
+      document.body.appendChild(a);
+      a.click();
+      
+      document.body.removeChild(a);
+      
+      console.log('Certificado criado e QR Code baixado com sucesso!');
+      
+    } catch (error) {
+      console.error('Error during form submission:', error);
+      alert('An error occurred during submission. Please check the console for details.');
+    }
+  });
+
+</script>

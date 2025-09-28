@@ -1,0 +1,52 @@
+<%- include('partials/header.ejs') %>
+
+<section class="valid-details-section section-padding">
+  <div class="center-wrapper">
+    <% if (typeof certificate !== 'undefined' && certificate) { %>
+      <% 
+        const formatDate = (dateString) => {
+          const date = new Date(dateString);
+          const day = date.getDate();
+          const month = date.toLocaleString('en-US', { month: 'short' });
+          const year = date.getFullYear();
+          return `${day} ${month} ${year}`;
+        };
+        
+        const birthDate = new Date(certificate.date_of_birth);
+        const formattedBirthDate = `${String(birthDate.getDate()).padStart(2, '0')}.${String(birthDate.getMonth() + 1).padStart(2, '0')}.${birthDate.getFullYear()}`;
+
+        const formattedCourseStartDate = formatDate(certificate.course_start_date);
+        const formattedCourseEndDate = formatDate(certificate.course_end_date);
+        const formattedIssuingDate = formatDate(certificate.issuing_date);
+        const formattedExpiryDate = formatDate(certificate.expiry_date);
+      %>
+      <div class="center-area mt-1 certificate-item">
+        <div class="top-head">
+          <a href="/">
+            <!-- <img src="/eu.jpg" loading="lazy" alt="Logo" width="100" height="100"> -->
+             <img src="<%= certificate.img_url %>" loading="lazy" alt="Certificate Image" width="100" height="100">
+          </a>
+          <h5>“Approved by Liberia Maritime Authority”</h5>
+        </div>
+        
+        <div class="validation-body">
+          <h3 class="status">Certification Verification: <span>Verified</span></h3>
+          <ul>
+            <li class="name">Certificate Holder's Name: <span><%= certificate.holder_name.toUpperCase() %></span></li>
+            <li>Certificate No: <span><%= certificate.certificate_number.toUpperCase() %></span></li>
+            <li>Date of Birth: <span><%= formattedBirthDate %></span></li>
+            <li>Course Start Date: <span><%= formattedCourseStartDate %></span></li>
+            <li>Course End Date: <span><%= formattedCourseEndDate %></span></li>
+            <li>ID No: <span><%= certificate.id_number.toUpperCase() %></span></li>
+            <li>Certificate Issuing Date: <span><%= formattedIssuingDate %></span></li>
+            <li>Certificate Expiry Date: <span><%= formattedExpiryDate %></span></li>
+          </ul>
+        </div>
+      </div>
+    <% } else { %>
+      <h1 class="text-4xl text-center text-gray-700 mt-10">Certificate not found!</h1>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer.ejs') %>
