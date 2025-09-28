@@ -3,11 +3,11 @@ ENV.config()
 import mysql from 'mysql2'
 
 const connections = mysql.createConnection({
-    host: process.env.LOCAL_HOST,
-    user: process.env.LOCAL_USER,
+    host: process.env.HOST,
+    user: process.env.USER,
     port: process.env.DB_PORT,
-    password: process.env.LOCAL_PASS,
-    database: process.env.LOCAL_DB_NAME
+    password: process.env.PASS,
+    database: process.env.DB_NAME
 })
 
 connections.connect( e => {
