@@ -1529,6 +1529,24 @@ ul.social-media li i {
     top: 15%;
 }
 
+.valid-details-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url(../assets/bg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+}
+
+@media screen and (max-width: 600px) {
+    .valid-details-section{
+        background-position: -380px center;
+    }
+}
+
 /* ========== Media Queries ========== */
 
 @media screen and (max-width: 991px) {
